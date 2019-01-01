@@ -5,6 +5,13 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
+//引入AuthService
+import { AuthService } from './core/auth.service';
+
+//引入RouterModule路由
+import {Routes,RouterModule} from '@angular/router';
+import { routing } from './app.routes';
+
 
 @NgModule({
   declarations: [
@@ -14,9 +21,11 @@ import { LoginComponent } from './login/login.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    routing,
+    //RouterModule.forRoot([{path:'login',component:LoginComponent},{path:'',redirectTo:'login',pathMatch:'full'}])
   ],
-  providers: [],
+  providers: [{provide:'auth',useClass:AuthService}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
