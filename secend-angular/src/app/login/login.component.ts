@@ -13,16 +13,34 @@ import { Component, OnInit,Inject } from '@angular/core';
 @Component({
   selector: 'app-login',
   template: `
-  <div>
-    <input [(ngModel)]="username" required type="text" #usernameRef="ngModel" minlength="3"> {{usernameRef.errors|json}}
+  <form #formRef="ngForm" (ngSubmit)="onSubmit(formRef.value)">
+    <fieldset ngModelGroup="login">
+      <input type="text" name="username" [(ngModel)]="username" required  #usernameRef="ngModel" minlength="3"> {{usernameRef.errors|json}}
         <div *ngIf="usernameRef.errors?.required">this is required</div>
         
-    <input [(ngModel)]="password" required type="password" #passwordRef="ngModel"> {{passwordRef.errors|json}}
-    <button (click)="onClick()">Login</button>
-  </div>
+      <input type="password" name="password" [(ngModel)]="password" required  #passwordRef="ngModel"> {{passwordRef.errors|json}}
+        <div *ngIf="passwordRef.errors?.required">this is required</div>
+
+    <!-- <button (click)="onClick()">Login</button>-->
+    <button type="submit">Submit</button>
+    </fieldset>
+
+  
+  </form>
 
   `,
-  styles: [],
+  styles: [
+    `
+    input.ng-invalid{
+      border:3px solid red;
+    }
+    input.ng-valid{
+      border:3px solid green;
+    }
+   
+
+  `
+],
 
   //providers:[AuthService]
 })
@@ -41,10 +59,14 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-    onClick() {
-    console.log('username:'+this.username+'\n'+'password:'+this.password);
-    console.log(this.service.loginwithcredentials(this.username,this.password));
-    
-  }
+  //   onClick() {
+  //   console.log('username:'+this.username+'\n'+'password:'+this.password);
+  //   console.log(this.service.loginwithcredentials(this.username,this.password));
+  // }
+
+    onSubmit(formvalue){
+      console.log('username:'+this.username+'\n'+'password:'+this.password);
+     console.log(this.service.loginwithcredentials(this.username,this.password));
+    }
 
 }
